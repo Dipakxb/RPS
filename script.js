@@ -1,19 +1,21 @@
 //save user and computer scores 
 let computerScore = 0;
 let userScore = 0;
+let numOfRounds = 0;
+let choiceAry = ["rock", "paper", "scissors"];
 
 // generate one of this three string "rock" "paper" "scissors"
 function getComputerChoice() {
     const randomNumber = Math.floor(Math.random() * 100) + 1;
     let choice;
     if(randomNumber <= 33 && randomNumber >= 0) {
-        choice = "paper";
+        choice = choiceAry[0];
     }
     if(randomNumber <= 66 && randomNumber > 33){
-        choice = "scissors";
+        choice = choiceAry[1];
     }
     if(randomNumber <= 99 && randomNumber > 66) {
-        choice = "rock";
+        choice = choiceAry[2];
     }
     return choice;
 }
@@ -40,6 +42,14 @@ function playRound(userChoice, compChoice) {
     if(userChoice === compChoice){
         value = "It's a Tie play again";
     }
+    if(userChoice === "rock" && compChoice === "paper"){
+        value = "You Lose! paper Beats rock";
+        computerScore++;
+    }
+    if(userChoice === "rock" && compChoice === "scissors"){
+        value = "You Won! rock Beats scissors";
+        userScore++;
+    }
     if(userChoice === "paper" && compChoice === "scissors"){
         value = "You Lose! scissors Beats paper";
         computerScore++;
@@ -56,14 +66,6 @@ function playRound(userChoice, compChoice) {
         value = "You Lose! rock Beats scissors";
         computerScore++;
     }
-    if(userChoice === "rock" && compChoice === "paper"){
-        value = "You Lose! paper Beats rock";
-        computerScore++;
-    }
-    if(userChoice === "rock" && compChoice === "scissors"){
-        value = "You Won! rock Beats scissors";
-        userScore++;
-    }
     return value;
 }
 
@@ -72,37 +74,69 @@ function playRound(userChoice, compChoice) {
 
 // playGame();
 
-const div = document.querySelector('.buttons');
+const ButtonsDiv = document.querySelector('.buttons');
 const resultDiv = document.querySelector('.resultDiv');
+const score = document.createElement('p');
+const current = document.createElement('p');
+const result = document.createElement('p');
+resultDiv.appendChild(score);
+resultDiv.appendChild(current);
+resultDiv.appendChild(result);
 
-function playGame(humanChoice) {
-    const score = document.createElement('p');
-    const current = document.createElement('p');
-    const result = document.createElement('p');
-    resultDiv.appendChild(score);
-    resultDiv.appendChild(current);
-    resultDiv.appendChild(result);
-
-    let value = "";
-    for(let x = 0; x < 5; x++){
-        current.innerText = playRound(humanChoice, getComputerChoice());
-        score.innerText = `Computer: ${computerScore} User: ${userScore}`;
-    
-        if(x >= 5){
-            if(userScore > computerScore) {
-                value = "You have won the Game!!";
-                break;
-            }
-            else{
-                value = "better Luck next Time!";
-                break;
-            }
-        }
+function initiateButtons() {
+    for(let choice of choiceAry){
+        const btnName = `${choice[0].toUpperCase().concat(choice.slice(1))}`;
+        const button = document.createElement('button');
+        ButtonsDiv.appendChild(button);
+        button.setAttribute('class', choice);
+        button.innerText = btnName;
     }
+}
+function playGame(humanChoice, numOfRounds) {
+    let value = "";
+    current.innerText = playRound(humanChoice, getComputerChoice());
+    score.innerText = `Computer: ${computerScore} User: ${userScore}`;
+    
+    if(numOfRounds == 5) {
+        if( userScore > computerScore){
+            value = "You have won the Game!!"
+        } else {
+            value = "better Luck next Time!";
+        }
+        resetGame();
+    }
+
     result.innerText = value;
 }
 
-div.addEventListener('click', (e)=> {
+function resetGame() {
+    numOfRounds = 0;
+    userScore = 0;
+    computerScore = 0;
+    ButtonsDiv.innerHTML = '';
+    
+
+    const playAgainBtn = document.createElement('button');
+    ButtonsDiv.appendChild(playAgainBtn);
+    playAgainBtn.setAttribute('class', 'play-again-btn');
+    playAgainBtn.innerText = 'Play Again?';
+}
+
+function playAgain() {
+    initiateButtons();
+    ButtonsDiv.removeChild(document.querySelector('.play-again-btn'));
+
+}
+
+ButtonsDiv.addEventListener('click', (e)=> {
     const selection = e.target.getAttribute('class');
-    playGame(selection);
+    if(selection && ['rock', 'paper', 'scissors'].includes(selection)){
+        numOfRounds++
+        playGame(selection, numOfRounds);
+    }
+    if(selection == 'play-again-btn'){
+        playAgain();
+    }
 })
+
+initiateButtons();
