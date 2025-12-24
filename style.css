@@ -1,25 +1,65 @@
 body {
-    background-image: linear-gradient(to left, #E15249, #F6D365);
+    background-image: linear-gradient(to left, #16476A, #3B9797);
 }
-
+* {
+    color: white;
+}
 h1 {
+    margin: 0;
     text-align: center;
+    font-family: Bytesized;
+    font-size: 500%;
+    width: auto;
+    background-image: linear-gradient(to left, #132440 , #3B9797);
+    border-bottom: 1px solid white;
 }
 
 .buttons {
+    margin-top: 3vh;
     display: flex;
     justify-content: center;
+    gap: 5vh;
     align-items: center;
-    margin-top: 50%;
 }
 
-.result-div > p{
+.buttons img {
+    border-radius: 2vh;
+    transition: all 1s ease;
+}
+
+.buttons img:hover {
+    cursor: pointer;
+    transition: all 0.5s ease;   
+    border-radius: 0;
+}
+
+.rock, .paper, .scissors{
+    height: 15vh;
+    width: 15vh;
+}
+
+.rock:hover, .paper:hover, .scissors:hover{
+    height: 25vh;
+    width: 25vh;
+}
+
+.play-again-btn{
+    width: auto;
+    height: 20vh;
+    transform: rotate(180deg);
+}
+
+.play-again-btn:hover {
+    width: auto;
+    height: 30vh;
+    transform: rotate(360deg);
+    transition: all 0.7s ease;
+} 
+
+.result-div {
+    margin-top: 10vh;
+}
+
+.result-div p{
     text-align: center;
 }
-
-button {
-    width: 10vw;
-    height: 5vh;
-    margin: 0 0.1vh;
-}
-

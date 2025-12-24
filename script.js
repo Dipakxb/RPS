@@ -66,12 +66,26 @@ resultDiv.appendChild(score);
 resultDiv.appendChild(current);
 resultDiv.appendChild(result);
 
+function setAttribute(e, attributes){
+    //c = class
+    for(let [c, attribute] of Object.entries(attributes)) {
+        e.setAttribute(c, attribute);
+    }
+}
+
 function initiateButtons() {
     for(let choice of choiceAry){
         const btnName = `${choice[0].toUpperCase().concat(choice.slice(1))}`;
-        const button = document.createElement('button');
+        const attributes = {
+            class: choice,
+            src: `images/${choice}.png`,
+            alt: `${choice} image`,
+            width: "100px"
+        }
+        const button = document.createElement('img');
+        setAttribute(button, attributes)
         ButtonsDiv.appendChild(button);
-        button.setAttribute('class', choice);
+
         button.innerText = btnName;
     }
 }
@@ -101,10 +115,14 @@ function resetGame() {
     computerScore = 0;
     ButtonsDiv.innerHTML = '';
     
-
-    const playAgainBtn = document.createElement('button');
+    const attributes = {
+        class: 'play-again-btn',
+        src: './images/Play-again.png',
+        alt: 'Play Again Button'
+    }
+    const playAgainBtn = document.createElement('img');
     ButtonsDiv.appendChild(playAgainBtn);
-    playAgainBtn.setAttribute('class', 'play-again-btn');
+    setAttribute(playAgainBtn, attributes)
     playAgainBtn.innerText = 'Play Again?';
 }
 
