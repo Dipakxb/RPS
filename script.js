@@ -21,21 +21,9 @@ function getComputerChoice() {
 }
 
 // get human choice get user choice that should be "rock" "paper" "scissors"
-//could have been a sleeker design
-
-/* function getHumanChoice() {
-    let choice = ""
-    do{
-        choice = (prompt(`Choose from "paper" "scissors" "rock" \nlet's play: `))
-        console.log(choice)
-    }
-    while(choice !== "rock" && choice !== "paper" && choice !== "scissors") 
-
-    return prompt(`Choose from "paper" "scissors" "rock" \nlet's play: `)
-} */
+// <Removed>
 
 // plays a round with user and computer choice as arguments declare a winner and increment the score of winner
-
 function playRound(userChoice, compChoice) {
     let value = "Enter a valid Choice";
     
@@ -69,13 +57,8 @@ function playRound(userChoice, compChoice) {
     return value;
 }
 
-// play five rounds keep track of the score and declare a winner
-
-
-// playGame();
-
 const ButtonsDiv = document.querySelector('.buttons');
-const resultDiv = document.querySelector('.resultDiv');
+const resultDiv = document.querySelector('.result-div');
 const score = document.createElement('p');
 const current = document.createElement('p');
 const result = document.createElement('p');
@@ -92,6 +75,8 @@ function initiateButtons() {
         button.innerText = btnName;
     }
 }
+
+// play five rounds keep track of the score and declare a winner
 function playGame(humanChoice, numOfRounds) {
     let value = "";
     current.innerText = playRound(humanChoice, getComputerChoice());
@@ -109,6 +94,7 @@ function playGame(humanChoice, numOfRounds) {
     result.innerText = value;
 }
 
+//Reset the game
 function resetGame() {
     numOfRounds = 0;
     userScore = 0;
@@ -125,7 +111,6 @@ function resetGame() {
 function playAgain() {
     initiateButtons();
     ButtonsDiv.removeChild(document.querySelector('.play-again-btn'));
-
 }
 
 ButtonsDiv.addEventListener('click', (e)=> {
