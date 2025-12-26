@@ -3,6 +3,8 @@ let computerScore = 0;
 let userScore = 0;
 let numOfRounds = 0;
 let choiceAry = ["rock", "paper", "scissors"];
+let ScoreAry = ["score", "current", "result"];
+let spanAry = ["computerSpan", "userSpan"];
 
 // generate one of this three string "rock" "paper" "scissors"
 function getComputerChoice() {
@@ -60,22 +62,6 @@ function playRound(userChoice, compChoice) {
 const ButtonsDiv = document.querySelector('.buttons');
 const resultDiv = document.querySelector('.result-div');
 
-const score = document.createElement('p');
-const current = document.createElement('p');
-const result = document.createElement('p');
-score.classList = 'score';
-current.classList = 'current';
-result.classList = 'result';
-resultDiv.appendChild(score);
-resultDiv.appendChild(current);
-resultDiv.appendChild(result);
-
-
-const computerSpan = document.createElement('span');
-const userSpan = document.createElement('span');
-score.appendChild(computerSpan);
-score.appendChild(userSpan);
-
 function setAttribute(e, attributes){
     //c = class
     for(let [c, attribute] of Object.entries(attributes)) {
@@ -97,24 +83,38 @@ function initiateButtons() {
     }
 }
 
+function initiateScore(){
+    for(let score of ScoreAry){
+        const para = document.createElement('p');
+        resultDiv.appendChild(para);
+        para.className = score;
+    }
+    for(let span of spanAry) {
+        const element = document.createElement('span');
+        document.querySelector('.score').appendChild(element);
+        element.className = span;
+    }
+}
+
 // play five rounds keep track of the score and declare a winner
 function playGame(humanChoice, numOfRounds) {
     let value = "";
-    current.innerText = playRound(humanChoice, getComputerChoice());
-    computerSpan.innerText = `Computer: ${computerScore}`;
-    userSpan.innerText = `User: ${userScore}`;
+    document.querySelector(".current").innerText = playRound(humanChoice, getComputerChoice());
+    document.querySelector(".computerSpan").innerText = `Computer: ${computerScore}`;
+    document.querySelector(".userSpan").innerText = `User: ${userScore}`;
 
     
     if(numOfRounds == 5) {
         if( userScore > computerScore){
-            value = "You have won the Game!!";
+            value = "WE GOOD";
         } else {
-            value = "better Luck next Time!";
+            value = "YOU DIED";
+            document.querySelector('.result').classList.toggle('red');
         }
         resetGame();
     }
 
-    result.innerText = value;
+    document.querySelector('.result').innerText = value;
 }
 
 //Reset the game
@@ -123,6 +123,8 @@ function resetGame() {
     userScore = 0;
     computerScore = 0;
     ButtonsDiv.innerHTML = '';
+    resultDiv.removeChild(document.querySelector('.score'));
+    resultDiv.removeChild(document.querySelector('.current'));
 
     const attributes = {
         class: 'play-again-btn',
@@ -136,13 +138,15 @@ function resetGame() {
 }
 
 function playAgain() {
+    resultDiv.innerHTML = '';
     initiateButtons();
+    initiateScore();
     ButtonsDiv.removeChild(document.querySelector('.play-again-btn'));
 }
 
 ButtonsDiv.addEventListener('click', (e)=> {
     const selection = e.target.getAttribute('class');
-    if(selection && ['rock', 'paper', 'scissors'].includes(selection)){
+    if(selection && choiceAry.includes(selection)){
         numOfRounds++;
         playGame(selection, numOfRounds);
     }
@@ -152,3 +156,4 @@ ButtonsDiv.addEventListener('click', (e)=> {
 })
 
 initiateButtons();
+initiateScore();
