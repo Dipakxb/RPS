@@ -71,9 +71,10 @@ function setAttribute(e, attributes){
 
 function initiateButtons() {
     for(let choice of choiceAry){
+        const choiceName = choice[0].toUpperCase().concat(choice.slice(1))
         const attributes = {
             class: choice,
-            src: `./images/${choice}.png`,
+            src: `./images/${choiceName}.png`,
             alt: `${choice} image`,
             width: "100px"
         };
