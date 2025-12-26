@@ -73,7 +73,7 @@ function initiateButtons() {
     for(let choice of choiceAry){
         const attributes = {
             class: choice,
-            src: `images/${choice}.png`,
+            src: `./images/${choice}.png`,
             alt: `${choice} image`,
             width: "100px"
         };
